@@ -40,5 +40,6 @@ public class Main {
             System.out.println("Error reading file");
         }
         //data.printData();
+        data.searchByWord(data.getRandom());
     }
 }

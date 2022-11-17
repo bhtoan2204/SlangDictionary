@@ -1,6 +1,6 @@
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.*;
 
 public class Data {
     private HashMap<String, String[]> mp = new HashMap<>();
@@ -48,5 +48,58 @@ public class Data {
                 System.out.print(entry.getValue()[i] + " ");
             }
         });
+    }
+
+    public String[] searchByWord(String word){
+        String[] result = mp.get(word);
+        for(int i =0; i<result.length;i++){
+            System.out.print(result[i]+" ");
+        }
+        System.out.println();
+        return result;
+    }
+
+    public boolean checkExist(String word){
+        return mp.containsKey(word);
+    }
+    public void addWord(String word, String def){
+        if(!checkExist(word)){
+            String[] temp = {def};
+            mp.put(word, temp);
+        }
+        else{
+            if(1==1){
+                duplicate();
+            }
+            else{
+                overwrite();
+            }
+        }
+    }
+
+    public void duplicate(){
+
+    }
+
+    public void overwrite(){
+
+    }
+
+    public void editWord(){
+
+    }
+    public void deleteWord(String word){
+        mp.remove(word);
+    }
+    public String getRandom(){
+        Set<String> keySet = mp.keySet();
+        List<String> keyList = new ArrayList<>(keySet);
+        int size = keyList.size();
+        int randIdx = new Random().nextInt(size);
+        System.out.println(keyList.get(randIdx));
+        return keyList.get(randIdx);
+    }
+    public void resetDict(){
+
     }
 }
