@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class Data {
     final HashMap<String, String[]> mp = new HashMap<>();
     public void readData() throws IOException {
+        mp.clear();
         FileReader fr;
         try
         {
@@ -26,7 +27,7 @@ public class Data {
                 continue;
             }
             if((char)i == '\n'){
-                String[] values = value.split("|");
+                String[] values = value.split("\\|");
                 mp.put(key, values);
                 key = "";
                 value ="";
@@ -41,15 +42,10 @@ public class Data {
         }
     }
 
-    public void printMp(){
-        System.out.println(mp);
-    }
-
     public static void main(String[] args) throws IOException{
         Data data = new Data();
         try{
             data.readData();
-            data.printMp();
         }
         catch(IOException exc)
         {
