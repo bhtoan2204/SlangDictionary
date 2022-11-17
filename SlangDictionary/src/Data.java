@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class Data {
-    final HashMap<String, String[]> mp = new HashMap<>();
+    private HashMap<String, String[]> mp = new HashMap<>();
     public void readData() throws IOException {
         mp.clear();
         FileReader fr;
@@ -27,7 +27,7 @@ public class Data {
                 continue;
             }
             if((char)i == '\n'){
-                String[] values = value.split("\\|");
+                String values[] = value.split("\\|");
                 mp.put(key, values);
                 key = "";
                 value ="";
@@ -41,15 +41,12 @@ public class Data {
             }
         }
     }
-
-    public static void main(String[] args) throws IOException{
-        Data data = new Data();
-        try{
-            data.readData();
-        }
-        catch(IOException exc)
-        {
-            System.out.println("Error reading file");
-        }
+    public void printData(){
+        mp.entrySet().forEach(entry -> {
+            System.out.print(entry.getKey() + " ");
+            for(int i =0; i<entry.getValue().length;i++){
+                System.out.print(entry.getValue()[i] + " ");
+            }
+        });
     }
 }

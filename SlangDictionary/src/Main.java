@@ -1,4 +1,7 @@
+import java.io.IOException;
+
 public class Main {
+    final Data data = new Data();
     public boolean findWord(String input){
         return false;
     }
@@ -26,7 +29,16 @@ public class Main {
     public boolean resetDict(){
         return false;
     }
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
+    public static void main(String[] args) throws IOException {
+        Interface gui = new Interface();
+        Data data = new Data();
+        try{
+            data.readData();
+        }
+        catch(IOException exc)
+        {
+            System.out.println("Error reading file");
+        }
+        //data.printData();
     }
 }
