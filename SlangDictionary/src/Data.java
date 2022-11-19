@@ -40,6 +40,7 @@ public class Data {
                 value+=(char)i;
             }
         }
+        fr.close();
     }
     public void printData(){
         mp.entrySet().forEach(entry -> {
@@ -52,12 +53,12 @@ public class Data {
 
     public String[] searchByWord(String word){
         String[] result = mp.get(word);
-        for(int i =0; i<result.length;i++){
-            System.out.print(result[i]+" ");
-        }
-        System.out.println();
         return result;
     }
+
+    //public String[] searchByDef(String input){
+
+    //}
 
     public boolean checkExist(String word){
         return mp.containsKey(word);
@@ -94,12 +95,19 @@ public class Data {
     public String getRandom(){
         Set<String> keySet = mp.keySet();
         List<String> keyList = new ArrayList<>(keySet);
+
         int size = keyList.size();
         int randIdx = new Random().nextInt(size);
-        System.out.println(keyList.get(randIdx));
-        return keyList.get(randIdx);
+
+        String randomKey = keyList.get(randIdx);
+        String[] randomValue = mp.get(randomKey);
+
+        return randomKey;
     }
     public void resetDict(){
+
+    }
+    public static void main(){
 
     }
 }
