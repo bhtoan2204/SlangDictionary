@@ -10,7 +10,7 @@ public class Interface {
     final JPanel listFunc = new JPanel();
     final JPanel mainBoard = new JPanel();
     public static Data data = new Data();
-    public void generateMainBoard(){
+    public void generateMainBoard() throws IOException{
         listEdit.setLayout(new FlowLayout());
         JButton addBtn = new JButton("ADD");
         addBtn.setPreferredSize(new Dimension(100, 50));
@@ -76,8 +76,17 @@ public class Interface {
         JLabel label1 = new JLabel(" Type here");
         JLabel label2 = new JLabel(" Type here");
 
+        JPanel Result1 = new JPanel();
+        JPanel Result2 = new JPanel();
+
         JTextArea result1 = new JTextArea(8, 45);
         JTextArea result2 = new JTextArea(8, 45);
+
+        Result1.add(result1);
+        Result2.add(result2);
+
+        JScrollPane sb = new JScrollPane(result2, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
         result1.setEditable(false);
         result2.setEditable(false);
 
@@ -86,7 +95,7 @@ public class Interface {
         panel1.add(entry1);
         panel1.add(okButton1);
         panel1.add(button1);
-        panel1.add(result1);
+        panel1.add(Result1);
 
 
         // Search by definition
@@ -94,7 +103,8 @@ public class Interface {
         panel2.add(entry2);
         panel2.add(okButton2);
         panel2.add(button2);
-        panel2.add(result2);
+        panel2.add(Result2);
+        panel2.add(sb);
 
         mainBoard.add(panel1, "1");
         mainBoard.add(panel2, "2");
@@ -120,10 +130,14 @@ public class Interface {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = entry1.getText();
-                System.out.println(input);
+                try {
+                    data.addSearchKeyToHis(input);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 if(data.checkExist(input)){
-                    String[] result = data.searchByWord(input);
-                    result1.setText(result[0]);
+                    String result = data.searchByWord(input);
+                    result1.setText(result);
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "Your slang word you entered doesn't exist");
@@ -131,21 +145,38 @@ public class Interface {
             }
         });
 
-        okButton2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                result2.setText("");
-            }
-        });
-
         ranBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String temp = data.getRandom();
-                entry2.setText(temp);
-                result1.setText(temp);
+                entry1.setText(temp);
+                String def = data.searchByWord(temp);
+                result1.setText(def);
+                String[] subDef = def.split("\n");
+                entry2.setText(subDef[0]);
+                result2.setText(temp);
+
             }
         });
+        okButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String temp = entry2.getText();
+                try {
+                    data.addSearchValueToHis(temp);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                String listKey = data.searchByDef(temp);
+                if(listKey == ""){
+                    JOptionPane.showMessageDialog(null, "Your definition you entered doesn't exist");
+                }
+                else{
+                    result2.setText(listKey);
+                }
+            }
+        });
+
 
         frame.add(listEdit, BorderLayout.SOUTH);
         frame.add(listFunc, BorderLayout.EAST);
