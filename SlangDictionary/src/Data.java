@@ -85,9 +85,10 @@ public class Data {
     public boolean checkExist(String word){
         return mp.containsKey(word);
     }
-    public void addWord(String word, ArrayList<String> def){
+    public void addWord(String word, String def){
+        ArrayList<String> listDef = def.split(",").toArray();
         if(!checkExist(word)){
-            mp.put(word, def);
+            mp.put(word, listDef);
         }
         else{
             if(1==1){
