@@ -2,7 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Interface {
     final JFrame frame = new JFrame();
@@ -24,10 +26,14 @@ public class Interface {
         JButton ranBtn = new JButton("RANDOM");
         ranBtn.setPreferredSize(new Dimension(100, 50));
 
+        JButton saveBtn = new JButton("SAVE");
+        saveBtn.setPreferredSize(new Dimension(100, 50));
+
         listEdit.add(addBtn);
         listEdit.add(delBtn);
         listEdit.add(editBtn);
         listEdit.add(ranBtn);
+        listEdit.add(saveBtn);
         listEdit.setVisible(true);
 
         mainBoard.setSize(new Dimension(400, 400));
@@ -85,7 +91,7 @@ public class Interface {
         Result1.add(result1);
         Result2.add(result2);
 
-        JScrollPane sb = new JScrollPane(result2, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane sb = new JScrollPane(result2, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         result1.setEditable(false);
         result2.setEditable(false);
@@ -177,6 +183,151 @@ public class Interface {
             }
         });
 
+        showHis.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    JTextArea textArea = new JTextArea(data.showHistory());
+                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    textArea.setLineWrap(true);
+                    textArea.setWrapStyleWord(true);
+                    scrollPane.setPreferredSize( new Dimension( 500, 200 ) );
+                    JOptionPane.showMessageDialog(null, scrollPane, "HISTORY",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+        saveBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    data.saveData();
+                    JOptionPane.showMessageDialog(null, "SAVE ACTION SUCCESS");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+        resetBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    data.resetDict();
+                    JOptionPane.showMessageDialog(null, "RESET ACTION SUCCESS");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+        delBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame delFrame = new JFrame("Delete word");
+                delFrame.setLayout(new FlowLayout());
+                JLabel delLabel = new JLabel(" Type word here");
+                JTextField delEntry = new JTextField(20);
+                JButton delWord = new JButton("Confirm");
+
+                delFrame.add(delLabel);
+                delFrame.add(delEntry);
+                delFrame.add(delWord);
+
+                delWord.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String temp = delEntry.getText();
+                        if(data.checkExist(temp)){
+                            int result = JOptionPane.showConfirmDialog(null, "Are you sure");
+                            if (result == JOptionPane.YES_NO_OPTION){
+                                data.delete(temp);
+                                JOptionPane.showMessageDialog(null, "DELETE ACTION SUCCESS");
+                                delFrame.dispatchEvent(new WindowEvent(delFrame, WindowEvent.WINDOW_CLOSING));
+                            }
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Your key you entered doesn't exist");
+                        }
+                    }
+                });
+
+                editBtn.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JFrame editFrame = new JFrame();
+                        editFrame.setLayout(new FlowLayout());
+                        JLabel keyLabel = new JLabel("Type Key: ");
+                        JLabel valueLabel = new JLabel("Type Value: ");
+
+                        JTextField keyEntry = new JTextField(20);
+                        JTextField valueEntry = new JTextField(20);
+
+                        editFrame.add(keyLabel);
+                        editFrame.add(keyEntry);
+                        editFrame.add(valueLabel);
+                        editFrame.add(valueEntry);
+
+                        editFrame.setSize(300,300);
+                        editFrame.setResizable(false);
+                        editFrame.setVisible(true);
+                    }
+                });
+
+                delFrame.setSize(300, 150);
+                delFrame.setResizable(false);
+                delFrame.setVisible(true);
+            }
+        });
+
+        editBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame editFrame = new JFrame();
+                editFrame.setLayout(new FlowLayout());
+                JLabel keyLabel = new JLabel("Type Key: ");
+                JLabel valueLabel = new JLabel("Type Value (, for each def): ");
+
+                JTextField keyEntry = new JTextField(20);
+                JTextField valueEntry = new JTextField(20);
+
+                JButton confirmButton = new JButton("OK");
+
+                editFrame.add(keyLabel);
+                editFrame.add(keyEntry);
+                editFrame.add(valueLabel);
+                editFrame.add(valueEntry);
+                editFrame.add(confirmButton);
+
+                confirmButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String key = keyEntry.getText();
+                        if(data.checkExist(key)){
+                            String[] defs = valueEntry.getText().split(", ");
+                            ArrayList<String> def = new ArrayList<>();
+                            for(int i = 0;i < defs.length;i++){
+                                def.add(defs[i]);
+                            }
+                            data.editWord(key,def);
+                            JOptionPane.showMessageDialog(null, "EDIT ACTION SUCCESS");
+                            editFrame.dispatchEvent(new WindowEvent(editFrame, WindowEvent.WINDOW_CLOSING));
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Your key you entered doesn't exist");
+                        }
+                    }
+                });
+
+                editFrame.setSize(300,200);
+                editFrame.setTitle("EDIT");
+                editFrame.setResizable(false);
+                editFrame.setVisible(true);
+            }
+        });
 
         frame.add(listEdit, BorderLayout.SOUTH);
         frame.add(listFunc, BorderLayout.EAST);

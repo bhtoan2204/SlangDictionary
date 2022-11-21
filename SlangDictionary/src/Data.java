@@ -1,6 +1,9 @@
 import java.io.*;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class Data {
     private HashMap<String, ArrayList<String>> mp = new HashMap<>();
@@ -9,7 +12,7 @@ public class Data {
         FileReader fr;
         try
         {
-            fr = new FileReader("./slang.txt");
+            fr = new FileReader("slang.txt");
         }
         catch(IOException exc)
         {
@@ -40,6 +43,8 @@ public class Data {
             mp.put(key, def);
             check = nextCheck;
         }
+        fr.close();
+        br.close();
     }
     public void printData(){
         mp.entrySet().forEach(entry -> {
@@ -86,7 +91,11 @@ public class Data {
         return mp.containsKey(word);
     }
     public void addWord(String word, String def){
-        ArrayList<String> listDef = def.split(",").toArray();
+        ArrayList<String> listDef = new ArrayList<>();
+        String[] temp = def.split(",");
+        for(int i =0; i< temp.length;i++)
+            listDef.add(temp[i]);
+
         if(!checkExist(word)){
             mp.put(word, listDef);
         }
@@ -108,8 +117,25 @@ public class Data {
 
     }
 
-    public void editWord(){
+    public void editWord(String word, ArrayList<String> def){
+        mp.put(word, def);
+    }
 
+    public void delete(String word){
+        mp.remove(word);
+    }
+
+    public String showHistory() throws IOException{
+        FileReader fr = new FileReader("history.txt");
+        BufferedReader br = new BufferedReader(fr);
+        String result = "";
+        String temp = br.readLine();
+        while(temp != null){
+            result += temp;
+            result += "\n";
+            temp = br.readLine();
+        }
+        return result;
     }
 
     public void deleteWord(String word){
@@ -145,15 +171,33 @@ public class Data {
         bw.close();
     }
 
-    public void resetDict(){
-
+    public void saveData() throws IOException {
+        FileWriter fw = new FileWriter("slang.txt");
+        BufferedWriter bw = new BufferedWriter(fw);
+        mp.entrySet().forEach(entry -> {
+            String key = entry.getKey();
+            ArrayList<String> listDef = entry.getValue();
+            String line = key + "`";
+            for(int i =0; i<listDef.size();i++){
+                if (i==entry.getValue().size()-1){
+                    line += listDef.get(i) + "\n";
+                }
+                else{
+                    line += listDef.get(i) + "| ";
+                }
+            }
+            try {
+                bw.write(line);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        bw.close();
     }
-    public static void main(String[] arg) throws IOException{
-        Data data = new Data();
-        data.readData();
 
-        System.out.println(data.checkExist("Slag"));
-
-
+    public void resetDict() throws IOException {
+        File src = new File("originalSlang.txt");
+        File dest = new File("slang.txt");
+        Files.copy(src.toPath(), dest.toPath(), REPLACE_EXISTING);
     }
 }
