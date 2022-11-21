@@ -7419,6 +7419,7 @@ SCAM`Rip off| Make out
 ASM`Assembly computer language
 ASN`Any Second Now
 B4N`Bye For Now
+ASO`I've seen| I see
 ASP`At Some Point
 STBY`Sucks To Be You| Sorry To Bother You
 RUA`Are You Alone?

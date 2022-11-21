@@ -90,31 +90,13 @@ public class Data {
     public boolean checkExist(String word){
         return mp.containsKey(word);
     }
-    public void addWord(String word, String def){
-        ArrayList<String> listDef = new ArrayList<>();
-        String[] temp = def.split(",");
-        for(int i =0; i< temp.length;i++)
-            listDef.add(temp[i]);
 
-        if(!checkExist(word)){
-            mp.put(word, listDef);
+    public void duplicate(String word, ArrayList<String> def){
+        ArrayList<String> temp = mp.get(word);
+        for(int i =0; i<def.size();i++){
+            temp.add(def.get(i));
         }
-        else{
-            if(1==1){
-                duplicate();
-            }
-            else{
-                overwrite();
-            }
-        }
-    }
-
-    public void duplicate(){
-
-    }
-
-    public void overwrite(){
-
+        mp.put(word,temp);
     }
 
     public void editWord(String word, ArrayList<String> def){

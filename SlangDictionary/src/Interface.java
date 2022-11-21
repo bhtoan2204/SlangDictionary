@@ -11,7 +11,7 @@ public class Interface {
     final JPanel listEdit = new JPanel();
     final JPanel listFunc = new JPanel();
     final JPanel mainBoard = new JPanel();
-    public static Data data = new Data();
+    final Data data = new Data();
     public void generateMainBoard() throws IOException{
         listEdit.setLayout(new FlowLayout());
         JButton addBtn = new JButton("ADD");
@@ -326,6 +326,76 @@ public class Interface {
                 editFrame.setTitle("EDIT");
                 editFrame.setResizable(false);
                 editFrame.setVisible(true);
+            }
+        });
+
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame addFrame = new JFrame("ADD");
+                addFrame.setLayout(new FlowLayout());
+                JLabel keyLabel = new JLabel("Type Key: ");
+                JLabel valueLabel = new JLabel("Type Value (, for each def): ");
+
+                JTextField keyEntry = new JTextField(20);
+                JTextField valueEntry = new JTextField(20);
+
+                JButton confirmButton = new JButton("OK");
+
+                addFrame.add(keyLabel);
+                addFrame.add(keyEntry);
+                addFrame.add(valueLabel);
+                addFrame.add(valueEntry);
+                addFrame.add(confirmButton);
+
+                addFrame.setSize(300,200);
+                addFrame.setTitle("ADD");
+                addFrame.setResizable(false);
+                addFrame.setVisible(true);
+
+                confirmButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String temp = keyEntry.getText();
+                        if (data.checkExist(temp)){
+                            String[] option = {"Overwrite", "Duplicate", "Cancel"};
+                            int check = JOptionPane.showOptionDialog(null, "Your word you entered is already existed", "Notification", JOptionPane.DEFAULT_OPTION, 0, null, option, option[0]);
+                            if (check == 0){
+                                String[] defs = valueEntry.getText().split(", ");
+                                ArrayList<String> def = new ArrayList<>();
+                                for(int i = 0;i < defs.length;i++){
+                                    def.add(defs[i]);
+                                }
+                                data.editWord(keyEntry.getText(), def);
+                                JOptionPane.showMessageDialog(null, "ADD ACTION SUCCESS");
+                                addFrame.dispatchEvent(new WindowEvent(addFrame, WindowEvent.WINDOW_CLOSING));
+                            }
+                            else if (check == 1){
+                                String[] defs = valueEntry.getText().split(", ");
+                                ArrayList<String> def = new ArrayList<>();
+                                for(int i = 0;i < defs.length;i++){
+                                    def.add(defs[i]);
+                                }
+                                data.duplicate(keyEntry.getText(), def);
+                                JOptionPane.showMessageDialog(null, "ADD ACTION SUCCESS");
+                                addFrame.dispatchEvent(new WindowEvent(addFrame, WindowEvent.WINDOW_CLOSING));
+                            }
+                            else if (check == 2){
+                                addFrame.dispatchEvent(new WindowEvent(addFrame, WindowEvent.WINDOW_CLOSING));
+                            }
+                        }
+                        else{
+                            String[] defs = valueEntry.getText().split(", ");
+                            ArrayList<String> def = new ArrayList<>();
+                            for(int i = 0;i < defs.length;i++){
+                                def.add(defs[i]);
+                            }
+                            data.editWord(keyEntry.getText(), def);
+                            JOptionPane.showMessageDialog(null, "ADD ACTION SUCCESS");
+                            addFrame.dispatchEvent(new WindowEvent(addFrame, WindowEvent.WINDOW_CLOSING));
+                        }
+                    }
+                });
             }
         });
 
