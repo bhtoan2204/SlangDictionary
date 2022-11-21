@@ -65,6 +65,10 @@ public class Data {
         return result;
     }
 
+    public String searchByWord2(String word){
+        return mp.get(word).get(0);
+    }
+
     public String searchByDef(String input){
         ArrayList<String> listKey = new ArrayList<>();
         String result = "";

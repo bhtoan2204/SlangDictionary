@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Interface {
     final JFrame frame = new JFrame();
@@ -396,6 +398,195 @@ public class Interface {
                         }
                     }
                 });
+            }
+        });
+
+        quiz1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String quest = data.getRandom();
+                String ans = data.searchByWord2(quest);
+                ArrayList<String> listAns = new ArrayList<>();
+                listAns.add(data.searchByWord2(data.getRandom()));
+                listAns.add(data.searchByWord2(data.getRandom()));
+                listAns.add(data.searchByWord2(data.getRandom()));
+                listAns.add(ans);
+                Collections.shuffle(listAns);
+
+                JFrame Q1 = new JFrame();
+                Q1.setLayout(new FlowLayout());
+
+                JButton rdb1 = new JButton(listAns.get(0));
+                rdb1.setPreferredSize(new Dimension(150, 50));
+                JButton rdb2 = new JButton(listAns.get(1));
+                rdb2.setPreferredSize(new Dimension(150, 50));
+                JButton rdb3 = new JButton(listAns.get(2));
+                rdb3.setPreferredSize(new Dimension(150, 50));
+                JButton rdb4 = new JButton(listAns.get(3));
+                rdb4.setPreferredSize(new Dimension(150, 50));
+
+                Q1.add(new Label("What is the definition of - " + quest));
+                Q1.add(rdb1);
+                Q1.add(rdb2);
+                Q1.add(rdb3);
+                Q1.add(rdb4);
+
+                rdb1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (listAns.get(0)==ans){
+                            JOptionPane.showMessageDialog(null, "Correct Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Wrong Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                    }
+                });
+
+                rdb2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (listAns.get(1)==ans){
+                            JOptionPane.showMessageDialog(null, "Correct Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Wrong Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                    }
+                });
+
+                rdb3.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (listAns.get(2)==ans){
+                            JOptionPane.showMessageDialog(null, "Correct Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Wrong Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                    }
+                });
+
+                rdb4.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (listAns.get(3)==ans){
+                            JOptionPane.showMessageDialog(null, "Correct Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Wrong Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                    }
+                });
+
+                // Dat cac component vao container
+                Q1.setSize(300, 300);
+                Q1.setVisible(true);
+                Q1.setTitle("Quiz 1");
+                Q1.setResizable(false);
+            }
+        });
+
+        quiz2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String ans = data.getRandom();
+                String quest = data.searchByWord(ans);
+                ArrayList<String> listAns = new ArrayList<>();
+                listAns.add(data.getRandom());
+                listAns.add(data.getRandom());
+                listAns.add(data.getRandom());
+                listAns.add(ans);
+                Collections.shuffle(listAns);
+
+                JFrame Q1 = new JFrame();
+                Q1.setLayout(new FlowLayout());
+
+                JButton rdb1 = new JButton(listAns.get(0));
+                rdb1.setPreferredSize(new Dimension(150, 50));
+                JButton rdb2 = new JButton(listAns.get(1));
+                rdb2.setPreferredSize(new Dimension(150, 50));
+                JButton rdb3 = new JButton(listAns.get(2));
+                rdb3.setPreferredSize(new Dimension(150, 50));
+                JButton rdb4 = new JButton(listAns.get(3));
+                rdb4.setPreferredSize(new Dimension(150, 50));
+
+                Q1.add(new Label("What is the slang word of - " + quest));
+                Q1.add(rdb1);
+                Q1.add(rdb2);
+                Q1.add(rdb3);
+                Q1.add(rdb4);
+
+                rdb1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (listAns.get(0)==ans){
+                            JOptionPane.showMessageDialog(null, "Correct Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Wrong Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                    }
+                });
+
+                rdb2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (listAns.get(1)==ans){
+                            JOptionPane.showMessageDialog(null, "Correct Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Wrong Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                    }
+                });
+
+                rdb3.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (listAns.get(2)==ans){
+                            JOptionPane.showMessageDialog(null, "Correct Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Wrong Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                    }
+                });
+
+                rdb4.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (listAns.get(3)==ans){
+                            JOptionPane.showMessageDialog(null, "Correct Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Wrong Answer");
+                            Q1.dispatchEvent(new WindowEvent(Q1, WindowEvent.WINDOW_CLOSING));
+                        }
+                    }
+                });
+
+                // Dat cac component vao container
+                Q1.setSize(300, 300);
+                Q1.setVisible(true);
+                Q1.setTitle("Quiz 2");
+                Q1.setResizable(false);
+
             }
         });
 
